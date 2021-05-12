@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { LoginContainer } from './member';
+import MemberRoutes from './member/MemberRoutes';
 
 class Routes extends React.PureComponent {
   //
@@ -12,8 +13,8 @@ class Routes extends React.PureComponent {
           render={() => {
             return (
               <Switch>
-                <Route exact path="/" component={() => <Redirect exact from="/" to={`/login`} />} />
-                <Route path="/login" component={LoginContainer} />
+                <Route exact path="/" component={() => <Redirect exact from="/" to={`/user/login`} />} />
+                <Route path="/user" component={MemberRoutes} />
                 <Route path="/board" component={() => <></>} />
               </Switch>
             );

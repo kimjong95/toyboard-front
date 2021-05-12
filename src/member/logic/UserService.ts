@@ -33,6 +33,12 @@ class UserService {
   }
 
   /// user
+
+  registerUser(): Promise<User> {
+    //
+    return this.userApi.register(this.user);
+  }
+
   @action
   changeUserProps(name: string, value: string): void {
     //

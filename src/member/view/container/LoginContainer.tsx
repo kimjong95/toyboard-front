@@ -3,8 +3,11 @@ import { Container, Form, Input, Label } from 'semantic-ui-react';
 import logo from '../../../logo.svg';
 import UserService from '../../logic/UserService';
 import { inject, observer } from 'mobx-react';
+import LoginUserView from '../view/LoginUserView';
+import { autobind } from 'core-decorators';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-interface Props {
+interface Props extends RouteComponentProps {
   userService?: UserService;
 }
 
@@ -12,6 +15,7 @@ interface State {}
 
 @inject('userService')
 @observer
+@autobind
 class LoginContainer extends React.Component<Props, State> {
   //
   componentDidMount() {}
@@ -28,7 +32,12 @@ class LoginContainer extends React.Component<Props, State> {
     const { userService } = this.props;
     if (userService) {
       await userService.login();
+      alert('로그인 되었습니다.');
     }
+  }
+
+  routeToJoin() {
+    this.props.history.push('/user/join');
   }
 
   render() {
@@ -39,30 +48,16 @@ class LoginContainer extends React.Component<Props, State> {
       <Container fluid>
         <div className="App">
           <img src={logo} className="App-logo" alt="logo" />
-          <Form>
-            <Form.Field inline>
-              <Label>id</Label>
-              <Input
-                inline
-                value={loginInfo && loginInfo.id}
-                onChange={(e: any) => this.changeLoginInfo('id', e.target.value)}
-              />
-            </Form.Field>
-            <Form.Field inline>
-              <Label>pw</Label>
-              <Input
-                inline
-                type="password"
-                value={loginInfo && loginInfo.password}
-                onChange={(e: any) => this.changeLoginInfo('password', e.target.value)}
-              />
-            </Form.Field>
-            <Form.Button onClick={() => this.login()}> 로그인 </Form.Button>
-          </Form>
+          <LoginUserView
+            changeLoginInfo={this.changeLoginInfo}
+            login={this.login}
+            loginInfo={loginInfo}
+            routeToJoin={this.routeToJoin}
+          />
         </div>
       </Container>
     );
   }
 }
 
-export default LoginContainer;
+export default withRouter(LoginContainer);

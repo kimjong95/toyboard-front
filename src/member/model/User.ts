@@ -10,6 +10,9 @@ export default class User extends Entity {
   createTime: number = 0;
   updatedTime: number = 0;
 
+  //
+  passwordCheck: string = '';
+
   constructor(user?: User) {
     super();
     if (user) {
@@ -25,4 +28,6 @@ decorate(User, {
   role: observable,
   createTime: observable,
   updatedTime: observable,
+
+  passwordCheck: observable,
 });
